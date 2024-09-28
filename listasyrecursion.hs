@@ -16,21 +16,18 @@ agregaElemento xs elem b = if b then elem : xs else xs ++ [elem]
 maximoLista :: (Num a, Ord a) => [a] -> a
 maximoLista [] = error "Lista vacía"
 maximoLista [x] = x
-maximoLista (x:xs) = maximoAux x xs
-  where
-    maximoAux y [] = y
-    maximoAux y (z:zs)
-      | z > y     = maximoAux z zs
-      | otherwise = maximoAux y zs
+maximoLista (x:xs) = if x > maximoLista xs then x else maximoLista xs
 
 -- 5. Índice con validación de rango:
 indice :: [a] -> Int -> a
-indice xs n 
-  | n < 0 || n >= longitud xs = error "Índice fuera de rango"
-  | otherwise = indiceAux xs n
-  where
-    indiceAux (x:_) 0 = x
-    indiceAux (_:xs) m = indiceAux xs (m-1)
+indice [] _ = error "Índice fuera de rango"
+indice (x:xs) n =
+    if n < 0 then
+        error "Índice fuera de rango"
+    else if n == 0 then
+        x
+    else
+        indice xs (n-1)
 
 --------------- Listas por comprensión ---------------
 -- 6 y 8. Uso de mod en lugar de rem:
